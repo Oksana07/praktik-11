@@ -1,3 +1,5 @@
+// 1 варіант
+
 // const colors = [
 //   '#FFFFFF',
 //   '#2196F3',
@@ -41,3 +43,54 @@
 //   ${randomIntegerFromInterval(0,255)},
 //   ${randomIntegerFromInterval(0,255)})`
 // }
+
+// 2 варіант
+
+class ColorSwitch {
+    constructor(selector, colors) {
+      this.colors = colors;
+      this.container = document.querySelector(selector);
+      this.startBtn = this.container.querySelector(".start");
+      this.stopBtn = this.container.querySelector(".stop");
+      this.intervalId = null;
+    }
+    randomIntegerFromInterval = (min, max) => {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    };
+    getRandomColor() {
+      return `rgb(${this.randomIntegerFromInterval(
+        0,
+        255
+      )}, ${this.randomIntegerFromInterval(
+        0,
+        255
+      )}, ${this.randomIntegerFromInterval(0, 255)})`;
+    }
+    changeColor() {
+      this.startBtn.disabled = true;
+      this.intervalId = setInterval(() => {
+        document.body.style.background = this.getRandomColor();
+        // this.colors[
+        //   this.randomIntegerFromInterval(0, this.colors.length - 1)
+        // ];
+      }, 1000);
+    }
+    stopChangeColor() {
+      this.startBtn.disabled = false;
+      clearInterval(this.intervalId);
+    }
+    addListeners() {
+      this.startBtn.addEventListener("click", this.changeColor.bind(this));
+      this.stopBtn.addEventListener("click", this.stopChangeColor.bind(this));
+    }
+  }
+  const colors = [
+    "#FFFFFF",
+    "#2196F3",
+    "#4CAF50",
+    "#FF9800",
+    "#009688",
+    "#795548",
+  ];
+  const switcher = new ColorSwitch(".container", colors);
+  switcher.addListeners();
